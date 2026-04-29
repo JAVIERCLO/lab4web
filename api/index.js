@@ -45,3 +45,13 @@ app.get("/", (req, res) => {
     </html>`);
 });
 
+// Endpoint de información
+app.get("/info", (req, res) => {
+    res.json({
+        "mensaje": "API de canciones",
+        "nombre": "Javier Chavez",
+        "curso": "Sistemas y Tecnologías Web",
+        "tecnologia": "JavaScript y Express",
+        "version": "1.0.0"
+    });
+});
