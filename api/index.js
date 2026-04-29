@@ -55,3 +55,8 @@ app.get("/info", (req, res) => {
         "version": "1.0.0"
     });
 });
+
+// Endpoint de saludo
+app.get("/saludo", (req, res) => {
+    res.send("Hola! Esta es una API de canciones hecha con Express.");
+});
