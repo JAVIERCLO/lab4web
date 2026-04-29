@@ -60,3 +60,13 @@ app.get("/info", (req, res) => {
 app.get("/saludo", (req, res) => {
     res.send("Hola! Esta es una API de canciones hecha con Express.");
 });
+
+// Endpoint de status
+app.get("/api/status", (req, res) => {
+    res.json({
+        "ok": true,
+        "status": "Servidor activo",
+        "puerto": port,
+        "timestamp": new Date().toISOString()
+    })
+});
