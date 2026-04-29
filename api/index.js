@@ -1,0 +1,47 @@
+const express = require('express');
+const {uid} = require('uid');
+
+const app = express();
+app.use(express.json());
+
+const port = 3001;
+
+// Endpoints obligatorios
+// Documentación de la API
+app.get("/", (req, res) => {
+    res.send(`
+    API DE CANCIONES
+
+    <h2>ENDPOINTS DISPONIBLES:</h2>
+
+    <h3>GET:</h3>
+    <ul>
+    <li>/canciones: Obtener todas las canciones</li>
+    <li>/canciones/{id}: Obtener una canción por ID</li>
+    <li>/canciones?genero=pop: Filtrar por género</li>
+    <li>/canciones?favorita=true: Filtrar favoritas</li>
+    </ul>
+
+    <h3>POST:</h3>
+    <ul>
+    <li>/canciones: Crear una nueva canción</li>
+    </ul>
+    <p>El body debe incluir: nombre, artista, genero, duracion, favorita</p>
+
+    <h3>PUT:</h3>
+    <ul>
+    <li>/canciones/{id}: Reemplazar una canción completa</li>
+    </ul>
+
+    <h3>PATCH:</h3>
+    <ul>
+    <li>/canciones/{id}: Modificar campos específicos</li>
+    </ul>
+
+    <h3>DELETE:</h3>
+    <ul>
+    <li>/canciones/{id}: Eliminar una canción</li>
+    </ul>
+    </html>`);
+});
+

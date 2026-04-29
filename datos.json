@@ -1,5 +1,42 @@
-{
-  "nombre": "Javier Chavez",
-  "carnet": "23132",
-  "curso": "Sistemas y Tecnologías Web"
-}
+[
+  {
+    "id": "3d256cfefa0",
+    "nombre": "Bad",
+    "artista": "Michael Jackson",
+    "genero": "pop",
+    "duracion": "4:07",
+    "favorita": false
+  },
+  {
+    "id": "d256cfefa00",
+    "nombre": "I gotta feeling",
+    "artista": "Black Eyed Peas",
+    "genero": "pop",
+    "duracion": "4:49",
+    "favorita": false
+  },
+  {
+    "id": "256cfefa00f",
+    "nombre": "Hard Times",
+    "artista": "Paramore",
+    "genero": "pop rock",
+    "duracion": "3:02",
+    "favorita": true
+  },
+  {
+    "id": "56cfefa00f6",
+    "nombre": "Daddy Yankee: Bzrp Music Sessions, Vol.0/66",
+    "artista": "Bizarrap, Daddy Yankee",
+    "genero": "reggaeton",
+    "duracion": "2:31",
+    "favorita": true
+  },
+  {
+    "id": "cfefa00f66a",
+    "nombre": "FEEL ME??",
+    "artista": "Trueno",
+    "genero": "hip hop",
+    "duracion": "3:07",
+    "favorita": false
+  }
+]
