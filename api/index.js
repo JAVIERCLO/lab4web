@@ -320,6 +320,14 @@ app.delete("/api/canciones/:id", async (req, res) => {
     }
 });
 
+// Error 404
+app.use((req, res) => {
+    res.status(404).json({
+        ok: false,
+        error: "Endpoint no encontrado"
+    });
+});
+
 // iniciar servidor en puerto
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
