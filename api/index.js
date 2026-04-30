@@ -87,21 +87,46 @@ async function leerArchivoJSON(rutaArchivo) {
     }
 }
 
-app.get("/canciones", async (req, res) => {
+// Endpoint para todas las canciones
+app.get("/api/canciones", async (req, res) => {
     try {
-    const canciones = await leerArchivoJSON(rutaArchivo);
-    res.json({
-    ok: true,
-    canciones: canciones
+        const canciones = await leerArchivoJSON(rutaArchivo);
+        res.json({
+        ok: true,
+        canciones: canciones
     });
     } catch (error) {
-    res.status(500).json({
-    ok: false,
-    error: "Error al leer las canciones"
+        res.status(500).json({
+            ok: false,
+            error: "Error al leer las canciones"
     });
     }
 });
 
+// Endpoint para obtener canción por id
+app.get("/api/canciones/:id", async (req, res) => {
+    try {
+        const cancion = await leerArchivoJSON(rutaArchivo);
+        const id = req.params.id;
+        const cancionEncontrada = cancion.find(c => c.id === id);
+        if (cancionEncontrada) {
+            res.json({
+                ok: true,
+                cancion: cancionEncontrada
+            });
+        } else {
+            res.status(404).json({
+                ok: false,
+                error: "Canción no encontrada"
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            error: "Error al leer la canción"
+        });
+    }
+});
 
 // iniciar servidor en puerto
 app.listen(port, () => {
