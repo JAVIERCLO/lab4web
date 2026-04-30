@@ -10,6 +10,8 @@ app.use(express.json());
 
 const port = 3001;
 
+
+
 // Endpoints obligatorios
 // Documentación de la API
 app.get("/", (req, res) => {
@@ -128,8 +130,58 @@ app.get("/api/canciones/:id", async (req, res) => {
     }
 });
 
+// Endpoint para crear una nueva canción
+app.post("/api/canciones", async (req, res) => {
+    try {
+        const canciones = await leerArchivoJSON(rutaArchivo);
+        const nuevaCancion = {
+            id: uid(),
+            nombre: req.body.nombre,
+            artista: req.body.artista,
+            genero: req.body.genero,
+            duracion: req.body.duracion,
+            favorita: req.body.favorita
+        };
+        // Validación de que existan los campos
+        if (!nuevaCancion.nombre || !nuevaCancion.artista || !nuevaCancion.genero || !nuevaCancion.duracion || nuevaCancion.favorita === undefined) {
+            return res.status(400).json({
+                ok: false,
+                error: "Faltan campos obligatorios"
+            });
+        }
+
+        // Validación de campos no vacíos
+        if (nuevaCancion.nombre.trim() === "" || nuevaCancion.artista.trim() === "" || nuevaCancion.genero.trim() === "" || nuevaCancion.duracion.trim() === "") {
+            return res.status(400).json({
+                ok: false,
+                error: "Los campos no pueden estar vacíos"
+            });
+        }
+
+        // Validación de favorito como boolean
+        if (typeof nuevaCancion.favorita !== "boolean") {
+            return res.status(400).json({
+                ok: false,
+                error: "El campo 'favorita' debe ser true o false"
+            });
+        }
+
+        canciones.push(nuevaCancion);
+        await fs.promises.writeFile(rutaArchivo, JSON.stringify(canciones, null, 2));
+        res.status(201).json({
+            ok: true,
+            cancion: nuevaCancion
+        });
+    } catch (error) {
+        console.error('Error al crear la canción:', error);
+        res.status(500).json({
+            ok: false,
+            error: "Error al crear la canción"
+        });
+    }
+});
+
 // iniciar servidor en puerto
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
 });
-

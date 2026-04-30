@@ -38,5 +38,13 @@
     "genero": "hip hop",
     "duracion": "3:07",
     "favorita": false
+  },
+  {
+    "id": "e0a8f36dd9f",
+    "nombre": "Blinding Lights",
+    "artista": "The Weeknd",
+    "genero": "pop",
+    "duracion": "3:20",
+    "favorita": true
   }
 ]
