@@ -247,6 +247,51 @@ app.put("/api/canciones/:id", async (req, res) => {
 
 });
 
+// Endpoint para modificar una canción
+app.patch("/api/canciones/:id", async (req, res) => {
+    try {
+        const canciones = await leerArchivoJSON(rutaArchivo);
+        const id = req.params.id;
+        const index = canciones.findIndex(c => c.id === id);
+        if (index === -1) {
+            return res.status(404).json({
+                ok: false,
+                error: "Canción no encontrada"
+            });
+        }
+        const cancionActual = canciones[index];
+        const cancionModificada = {
+            id: cancionActual.id,
+            nombre: req.body.nombre || cancionActual.nombre,
+            artista: req.body.artista || cancionActual.artista,
+            genero: req.body.genero || cancionActual.genero,
+            duracion: req.body.duracion || cancionActual.duracion,
+            favorita: req.body.favorita !== undefined ? req.body.favorita : cancionActual.favorita
+        };
+
+        // Validación de campos no vacíos
+        if (cancionModificada.nombre.trim() === "" || cancionModificada.artista.trim() === "" || cancionModificada.genero.trim() === "" || cancionModificada.duracion.trim() === "") {
+            return res.status(400).json({
+                ok: false,  
+                error: "Los campos no pueden estar vacíos"
+            });
+        }
+        canciones[index] = cancionModificada;
+        await fs.promises.writeFile(rutaArchivo, JSON.stringify(canciones, null, 2));
+        res.json({
+            ok: true,
+            cancion: cancionModificada
+        });
+
+    } catch (error) {
+            console.error('Error al modificar la canción:', error);
+            res.status(500).json({
+                ok: false,
+                error: "Error al modificar la canción"
+            });
+    }
+});
+
 // iniciar servidor en puerto
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);
