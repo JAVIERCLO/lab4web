@@ -324,7 +324,10 @@ app.delete("/api/canciones/:id", async (req, res) => {
 app.use((req, res) => {
     res.status(404).json({
         ok: false,
-        error: "Endpoint no encontrado"
+        error: "Endpoint no encontrado",
+        ruta: req.originalUrl,
+        metodo: req.method,
+        sugerencia: "Puedes revisar / para ver los endpints disponibles"
     });
 });
 
