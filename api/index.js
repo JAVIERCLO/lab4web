@@ -181,6 +181,72 @@ app.post("/api/canciones", async (req, res) => {
     }
 });
 
+// Endpoint para reemplazar una canción completa
+app.put("/api/canciones/:id", async (req, res) => {
+    try {
+        const canciones = await leerArchivoJSON(rutaArchivo);
+        const id = req.params.id;
+        // encontrar el index de la canción que se quiere actualizar
+        const index = canciones.findIndex(c => c.id === id);
+        // VAlidación de que la canción exista
+        if (index === -1) {
+            return res.status(404).json({
+                ok: false,
+                error: "Canción no encontrada"
+            });
+        }
+        // Validación de campos
+        const { nombre, artista, genero, duracion, favorita } = req.body;
+        if (!nombre || !artista || !genero || !duracion || favorita === undefined) {
+            return res.status(400).json({
+                ok: false,
+                error: "Faltan campos obligatorios"
+            });
+        }
+        // Validación de campos no vacíos
+        if (nombre.trim() === "" || artista.trim() === "" || genero.trim() === "" || duracion.trim() === "") {
+            return res.status(400).json({
+                ok: false,
+                error: "Los campos no pueden estar vacíos"
+            });
+        }
+        // validación de favorito como boolean
+        if (typeof favorita !== "boolean") {
+            return res.status(400).json({
+                ok: false,
+                error: "El campo 'favorita' debe ser true o false"
+            });
+        }
+
+        // Crear la canción actualizada
+        const cancionActualizada = {
+            id: id,
+            nombre: nombre,
+            artista: artista,
+            genero: genero,
+            duracion: duracion,
+            favorita: favorita
+        };
+
+        // Reemplazar la canción en el array
+        canciones[index] = cancionActualizada;
+        // guardar la canción
+        await fs.promises.writeFile(rutaArchivo, JSON.stringify(canciones, null, 2));
+
+        res.json({
+            ok: true,
+            cancion: cancionActualizada
+        });
+    } catch (error) {
+        console.error('Error al actualizar la canción:', error);
+        res.status(500).json({
+            ok: false,
+            error: "Error al actualizar la canción"
+        });
+    }
+
+});
+
 // iniciar servidor en puerto
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);

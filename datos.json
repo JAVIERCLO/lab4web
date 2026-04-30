@@ -9,11 +9,11 @@
   },
   {
     "id": "d256cfefa00",
-    "nombre": "I gotta feeling",
-    "artista": "Black Eyed Peas",
+    "nombre": "Blinding Lights",
+    "artista": "The Weeknd",
     "genero": "pop",
-    "duracion": "4:49",
-    "favorita": false
+    "duracion": "3:20",
+    "favorita": true
   },
   {
     "id": "256cfefa00f",
