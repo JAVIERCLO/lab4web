@@ -1,5 +1,9 @@
-const express = require('express');
-const {uid} = require('uid');
+import express from 'express';
+import {uid} from 'uid';
+import fs from 'fs';
+import path from 'path';
+
+const rutaArchivo = '../datos.json';
 
 const app = express();
 app.use(express.json());
@@ -70,3 +74,37 @@ app.get("/api/status", (req, res) => {
         "timestamp": new Date().toISOString()
     })
 });
+
+// Leer archivo json
+async function leerArchivoJSON(rutaArchivo) {
+    try {
+        const rawData = await fs.promises.readFile(rutaArchivo, 'utf8');
+        console.log('Archivo JSON leído correctamente');        
+        return JSON.parse(rawData);
+    } catch (error) {
+        console.error('Error al leer el archivo JSON:', error);
+        throw error;
+    }
+}
+
+app.get("/canciones", async (req, res) => {
+    try {
+    const canciones = await leerArchivoJSON(rutaArchivo);
+    res.json({
+    ok: true,
+    canciones: canciones
+    });
+    } catch (error) {
+    res.status(500).json({
+    ok: false,
+    error: "Error al leer las canciones"
+    });
+    }
+});
+
+
+// iniciar servidor en puerto
+app.listen(port, () => {
+    console.log(`Servidor corriendo en http://localhost:${port}`);
+});
+
