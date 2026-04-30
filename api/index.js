@@ -292,6 +292,34 @@ app.patch("/api/canciones/:id", async (req, res) => {
     }
 });
 
+// Endpoint para eliminar una canción
+app.delete("/api/canciones/:id", async (req, res) => {
+    try {
+        const canciones = await leerArchivoJSON(rutaArchivo);
+        const id = req.params.id;
+        const index = canciones.findIndex(c => c.id === id);
+        // Validación de que la canción exista
+        if (index === -1) {
+            return res.status(404).json({
+                ok: false,
+                error: "Canción no encontrada"
+            });
+        }
+        const NuevaPlaylist = canciones.filter(c => c.id !== id);
+        await fs.promises.writeFile(rutaArchivo, JSON.stringify(NuevaPlaylist, null, 2));
+        res.json({
+            ok: true,
+            mensaje: "Canción eliminada correctamente"
+        });
+    } catch (error) {
+        console.error('Error al eliminar la canción:', error);
+        res.status(500).json({
+            ok: false,
+            error: "Error al eliminar la canción"
+        });
+    }
+});
+
 // iniciar servidor en puerto
 app.listen(port, () => {
     console.log(`Servidor corriendo en http://localhost:${port}`);

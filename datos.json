@@ -8,14 +8,6 @@
     "favorita": false
   },
   {
-    "id": "d256cfefa00",
-    "nombre": "hola",
-    "artista": "The Weeknd",
-    "genero": "pop",
-    "duracion": "3:20",
-    "favorita": true
-  },
-  {
     "id": "256cfefa00f",
     "nombre": "Hard Times",
     "artista": "Paramore",
