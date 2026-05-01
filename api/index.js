@@ -89,6 +89,36 @@ async function leerArchivoJSON(rutaArchivo) {
     }
 }
 
+// Filtros
+app.get("/api/canciones", async (req, res) => {
+    try {
+        const canciones = await leerArchivoJSON(rutaArchivo);
+        const genero = req.query.genero.trim().toLowerCase();
+        if (req.query.genero) {
+            const cancionesFiltradas = canciones.filter(
+                (cancion) => cancion.genero.toLowerCase().includes(genero) 
+            );
+            return res.json(
+                {
+                    ok: true,
+                    canciones: cancionesFiltradas
+                }
+            );   
+        }
+        res.json(
+            {
+                ok: true,
+                canciones: canciones
+            }
+        )
+    } catch (error) {
+            res.status(500).json({ 
+                ok: false,
+                error: "Error al filtrar las canciones"
+            });
+    }
+});
+
 // Endpoint para todas las canciones
 app.get("/api/canciones", async (req, res) => {
     try {
